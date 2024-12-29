@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <section class="text-center mb-5">
+        <h1 class="text-3xl lg:text-5xl font-bold text-gray-800 mb-4">Create Amazing Scripts</h1>
+        <p class="lg:text-xl text-gray-600">Transform your ideas into professional video scripts using AI</p>
+    </section>
+
+    <!-- Main Form -->
+    <section class="glass-effect rounded-xl shadow md:shadow-2xl p-8 mb-5">
+        <form id="scriptForm" class="space-y-6">
+            <div class="space-y-2">
+                <label for="prompt" class="text-lg font-semibold text-gray-700 flex items-center">
+                    <i class="fas fa-pen-fancy mr-2"></i>Script Prompt
+                </label>
+                <textarea id="prompt" name="prompt" rows="2"
+                    class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+                    placeholder="Describe your video script idea in detail..." required></textarea>
+
+                <!-- Example prompts -->
+                <div class="mt-2 space-y-1 text-sm text-gray-600">
+                    <p class="flex items-center">
+                        <i class="fas fa-mug-hot text-brown-500 mr-2"></i>
+                        Example 1: "Create a 5-minute tutorial script about making the perfect coffee at home."
+                    </p>
+                    <p class="flex items-center">
+                        <i class="fas fa-film text-yellow-500 mr-2"></i>
+                        Example 2: "Create a romantic comedy script scene where two characters meet in an unusual way."
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-lg font-semibold text-gray-700 flex items-center">
+                        <i class="fas fa-file-upload mr-2"></i>Reference File
+                    </label>
+                    <div class="relative">
+                        <input type="file" id="file" name="file" accept=".txt,.pdf,.png,.jpg,.jpeg" class="hidden"
+                            onchange="updateFileName(this)">
+                        <label for="file"
+                            class="cursor-pointer flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 transition duration-300">
+                            <span id="fileName" class="text-gray-500">Drop file here or click to upload</span>
+                        </label>
+                    </div>
+
+                    <!-- Example files with download links -->
+                    <div class="mt-2 space-y-1 text-sm text-gray-600">
+                        <button onclick="downloadAndUploadExample('coffee_image.jpg')"
+                            class="flex items-center w-full px-2 py-1 hover:bg-gray-100 rounded transition-colors">
+                            <i class="fas fa-mug-hot text-brown-500 mr-2"></i>
+                            <span class="flex-1 text-left">Example 1: Coffee Tutorial (.jpg)</span>
+                            <i class="fas fa-download text-gray-400"></i>
+                        </button>
+                        <button onclick="downloadAndUploadExample('movie_genre.txt')"
+                            class="flex items-center w-full px-2 py-1 hover:bg-gray-100 rounded transition-colors">
+                            <i class="fas fa-film text-blue-500 mr-2"></i>
+                            <span class="flex-1 text-left">Example 2: Scene Analysis (.txt)</span>
+                            <i class="fas fa-download text-gray-400"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-lg font-semibold text-gray-700 flex items-center">
+                        <i class="fas fa-link mr-2"></i>Reference URL
+                    </label>
+                    <input type="url" id="url" name="url"
+                        class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+                        placeholder="https://example.com">
+
+                    <!-- Example URLs -->
+                    <div class="mt-2 space-y-1 text-sm text-gray-600">
+                        <button onclick="useExampleUrl('https://www.eatingwell.com/article/41595/9-rules-for-how-to-make-a-perfect-cup-of-coffee/', 'Coffee Guide')"
+                            class="flex items-center w-full px-2 py-1 hover:bg-gray-100 rounded transition-colors text-left">
+                            <i class="fas fa-mug-hot text-brown-500 mr-2"></i><span class="flex-1">Example 1: Perfect Coffee Guide</span>
+                            <i class="fas fa-link text-gray-400"></i>
+                        </button>
+                        <button onclick="useExampleUrl('https://www.imdb.com/list/ls027328830/')" class="flex items-center w-full px-2 py-1 hover:bg-gray-100 rounded transition-colors text-left">
+                            <i class="fas fa-film text-green-500 mr-2"></i><span class="flex-1">Example 2: Movie Genres Guide</span>
+                            <i class="fas fa-link text-gray-400"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full gradient-bg text-white py-4 px-6 rounded-lg hover:opacity-90 transform hover:scale-[1.02] transition duration-300 flex items-center justify-center space-x-2">
+                <i class="fas fa-magic"></i><span>Generate Script</span>
+            </button>
+        </form>
+    </section>
+
+    <!-- existing content -->
+    <a href="/saved_scripts" class="floating-button gradient-bg hover:opacity-90 transform hover:scale-[1.02] transition duration-300">
+        <i class="fas fa-folder-open hover:opacity-90 transform hover:scale-[1.02] transition duration-300"></i>
+    </a>
+
+    <!-- Loading Indicator -->
+    <section id="loading" class="hidden">
+        <div class="flex flex-col items-center space-y-4 p-8">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+            <span class="text-lg text-gray-600">Creating your script magic...</span>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="hidden max-w-7xl mx-auto">
+        <div class="bg-white/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-100 p-4 lg:p-6">
+
+            <div class="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:justify-between sm:items-center mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="hidden sm:block h-8 w-2 bg-gradient-to-b from-blue-600 to-blue-700 rounded-full"></div>
+                    <div class="flex flex-col">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Your Generated Script</h2>
+                        <p class="text-sm text-gray-500 mt-1">Ready to use or save for later</p>
+                    </div>
+                </div>
+
+                <!-- Actions Toolbar -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="copyScript()" class="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 group">
+                        <i class="fas fa-copy text-gray-600 group-hover:text-blue-600"></i>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Copy</span>
+                    </button>
+
+                    <button onclick="saveScript()" class="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+                        <i class="fas fa-save"></i>
+                        <span class="text-sm font-medium">Save</span>
+                    </button>
+
+                    <a href="/saved_scripts" class="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300">
+                        <i class="fas fa-folder-open"></i>
+                        <span class="text-sm font-medium hidden sm:block">View Saved Scripts</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Script Content -->
+            <div class="relative">
+                <div id="scriptContent" class="prose max-w-none bg-white rounded-xl border border-gray-200 p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02]">
+                        <span class="text-6xl font-bold text-gray-900 rotate-[-45deg]">SCRIPT</span>
+                    </div>
+                    <!-- Content will be dynamically inserted here -->
+                    <div class="relative z-10">
+                        <!-- Dynamic content goes here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

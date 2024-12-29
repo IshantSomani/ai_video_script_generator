@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../static/img/logo.png">
+    <title>{% block title %}AI Script Generator Pro{% endblock %}</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Axios for HTTP requests -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Font Awesome (Only one version) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Marked.js (for Markdown rendering) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Block for additional CSS (optional) -->
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    
+    <div class="container mx-auto px-4 py-5">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Toast notification (if any) -->
+    {% include 'components/toast.html' %}
+
+    <!-- Custom JavaScript (for page-specific functionality) -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Block for additional JavaScript (optional) -->
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

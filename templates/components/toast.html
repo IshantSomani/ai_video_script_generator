@@ -1,0 +1,63 @@
+<div id="toast" 
+    class="fixed bottom-0 right-0 z-[9999] p-4 mb-4 mr-4 transform transition-all duration-300 translate-y-full opacity-0">
+    
+    <!-- Success Toast -->
+    <div class="toast-success hidden">
+        <div class="max-w-md bg-white border-l-4 border-green-500 rounded-lg shadow-lg overflow-hidden flex items-center">
+            <div class="flex-shrink-0 bg-green-50 px-4 py-4"><i class="fas fa-check-circle text-xl text-green-500"></i></div>
+            <div class="flex-1 px-4 py-3">
+                <p class="text-sm font-medium text-gray-800">Success!</p>
+                <span class="text-sm text-gray-600" id="toastMessage"></span>
+            </div>
+            <button onclick="hideToast()" class="p-3 hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div class="toast-error hidden">
+        <div class="max-w-md bg-white border-l-4 border-red-500 rounded-lg shadow-lg overflow-hidden flex items-center">
+            <div class="flex-shrink-0 bg-red-50 px-4 py-4"><i class="fas fa-exclamation-circle text-xl text-red-500"></i></div>
+            <div class="flex-1 px-4 py-3">
+                <p class="text-sm font-medium text-gray-800">Error!</p>
+                <p class="text-sm text-gray-600" id="toastErrorMessage">Something went wrong</p>
+            </div>
+            <button onclick="hideToast()" class="p-3 hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Info Toast -->
+    <div class="toast-info hidden">
+        <div class="max-w-md bg-white border-l-4 border-blue-500 rounded-lg shadow-lg overflow-hidden flex items-center">
+            <div class="flex-shrink-0 bg-blue-50 px-4 py-4">
+                <i class="fas fa-info-circle text-xl text-blue-500"></i>
+            </div>
+            <div class="flex-1 px-4 py-3">
+                <p class="text-sm font-medium text-gray-800">Information</p>
+                <p class="text-sm text-gray-600" id="toastInfoMessage">Here's something you should know</p>
+            </div>
+            <button onclick="hideToast()" class="p-3 hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Warning Toast -->
+    <div class="toast-warning hidden">
+        <div class="max-w-md bg-white border-l-4 border-yellow-500 rounded-lg shadow-lg overflow-hidden flex items-center">
+            <div class="flex-shrink-0 bg-yellow-50 px-4 py-4">
+                <i class="fas fa-exclamation-triangle text-xl text-yellow-500"></i>
+            </div>
+            <div class="flex-1 px-4 py-3">
+                <p class="text-sm font-medium text-gray-800">Warning</p>
+                <p class="text-sm text-gray-600" id="toastWarningMessage">Please proceed with caution</p>
+            </div>
+            <button onclick="hideToast()" class="p-3 hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>
