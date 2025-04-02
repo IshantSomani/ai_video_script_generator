@@ -1,6 +1,10 @@
+Sure! Here's an updated version of the README with your changes, where you use `Groq` and `MODEL_NAME` for script generation:
+
+---
+
 # AI Video Script Generator
 
-This project is an AI-powered video script generator that allows users to create, save, and manage video scripts. The application uses OpenAI's API to generate scripts based on user prompts, reference files, and URLs. It also supports OCR for extracting text from images and PDFs.
+This project is an AI-powered video script generator that allows users to create, save, and manage video scripts. The application uses Groq's API for script generation based on user prompts, reference files, and URLs. It also supports OCR for extracting text from images and PDFs.
 
 ## Features
 
@@ -23,7 +27,7 @@ This project is an AI-powered video script generator that allows users to create
 ### Backend
 - Python 3.9+
 - Flask web framework
-- OpenAI API for script generation
+- Groq API for script generation
 - PyTesseract for OCR
 - FPDF for PDF generation
 - BeautifulSoup4 for HTML parsing
@@ -35,7 +39,7 @@ This project is an AI-powered video script generator that allows users to create
 ## Key Features Implemented
 
 ### 1. Advanced Script Generation
-- AI-powered script generation using OpenAI's API
+- AI-powered script generation using Groq's API
 - Multi-modal input support:
   - Text prompts
   - Image uploads (with OCR)
@@ -131,10 +135,10 @@ ai_video_script_generator/
 
 4. **Set up environment variables:**
 
-    Create a `.env` file in the project root directory and add your OpenAI API key:
+    Create a `.env` file in the project root directory and add your Groq API key:
 
     ```env
-    XAI_API_KEY=your_openai_api_key
+    XAI_API_KEY=your_groq_api_key
     ```
 
 5. **Run the application:**
@@ -165,14 +169,14 @@ ai_video_script_generator/
 
 - **File Size Limit:** The maximum file size for uploads is 16MB.
 - **OCR Accuracy:** The accuracy of OCR depends on the quality of the uploaded images.
-- **API Rate Limits:** The application relies on OpenAI's API, which may have rate limits and usage restrictions.
+- **API Rate Limits:** The application relies on Groq's API, which may have rate limits and usage restrictions.
 - **Content Length:** The combined length of the prompt and additional context is limited to 4000 characters.
 
 ## Troubleshooting
 
 - **File Too Large:** Ensure that the uploaded file is within the 16MB limit.
 - **OCR Errors:** Check that Tesseract OCR is properly installed and configured.
-- **API Errors:** Verify that the OpenAI API key is correctly set in the `.env` file.
+- **API Errors:** Verify that the Groq API key is correctly set in the `.env` file.
 
 ## Contributing
 
@@ -181,3 +185,21 @@ Contributions are welcome! Please fork the repository and submit pull requests f
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+### Code Update:
+
+In `app.py`, you will need to use the following snippet to replace OpenAI with Groq for script generation:
+
+```python
+from groq import Groq
+
+MODEL_NAME = "llama-3.3-70b-versatile"
+
+client = Groq(
+    api_key=XAI_API_KEY,
+)
+```
+
+This will integrate the Groq API for script generation based on user input and context.

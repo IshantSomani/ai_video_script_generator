@@ -12,9 +12,9 @@ import logging
 from dotenv import load_dotenv
 from openai import OpenAI
 import json
-from pathlib import Path
 import sys
 import tempfile
+from groq import Groq
 
 # app = Flask(__name__)
 app = Flask(__name__, static_folder='static')
@@ -41,15 +41,14 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['ALLOWED_EXTENSIONS'] = {'txt', 'pdf', 'png', 'jpg', 'jpeg'}
 
-# X.ai API Configuration
-XAI_API_KEY = os.getenv('XAI_API_KEY')
-MODEL_NAME = "grok-2-vision-1212"
+# groqcloud API Configuration
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+MODEL_NAME = "llama-3.3-70b-versatile"
 SCRIPTS_METADATA_FILE = 'saved_scripts/scripts_metadata.json'
 
-# Initialize X.ai client
-client = OpenAI(
-    api_key=XAI_API_KEY,
-    base_url="https://api.x.ai/v1",
+# Initialize groqcloud client
+client = Groq(
+    api_key=GROQ_API_KEY,
 )
 
 # Create required directories
